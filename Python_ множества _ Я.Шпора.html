@@ -1,0 +1,771 @@
+
+<!-- saved from url=(0112)https://code.s3.yandex.net/Python-dev/cheatsheets/083-python-mnozhestva-shpora/083-python-mnozhestva-shpora.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Python: множества&nbsp;| Я.Шпора</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style>
+<link rel="apple-touch-icon" sizes="180x180" href="https://code.s3.yandex.net/Python-dev/cheatsheets/static/ico/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://code.s3.yandex.net/Python-dev/cheatsheets/static/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://code.s3.yandex.net/Python-dev/cheatsheets/static/ico/favicon-16x16.png">
+<link rel="manifest" href="https://code.s3.yandex.net/Python-dev/cheatsheets/static/ico/site.webmanifest">
+<link rel="mask-icon" href="https://code.s3.yandex.net/Python-dev/cheatsheets/static/ico/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="https://code.s3.yandex.net/Python-dev/cheatsheets/static/ico/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="../static/ico/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+<link href="./Python_ множества _ Я.Шпора_files/prism.css" rel="stylesheet">
+<script src="./Python_ множества _ Я.Шпора_files/prism.js"></script>
+<link href="./Python_ множества _ Я.Шпора_files/custom.css" rel="stylesheet">
+<script src="./Python_ множества _ Я.Шпора_files/custom.js"></script>
+<!--<base target="_blank">--><base href="." target="_blank">
+<meta content="extension" property="gosuslugi.plugin.extension.content"></head><body><article id="0f12c859-821a-442a-b5b3-58285a54bfb7" class="page sans"><header><h1 class="page-title"><strong>Python: м</strong>ножества<strong>&nbsp;| Я.Шпора</strong></h1><p class="page-description"></p></header><div class="page-body"><p id="fdbfae25-623b-4f4c-849c-298886f186ca" class="">Множество (set) в Python — изменяемая неупорядоченная коллекция. Элементы множества — уникальные значения неизменяемых типов. </p><h2 id="dcd74ea7-31c4-487a-9d49-c6558a917e9f" class="block-color-default">Особенности множества</h2><ul id="aa727366-92a4-4c32-bb84-a15bc168ddcd" class="block-color-default bulleted-list"><li style="list-style-type:disc">В множество можно добавлять элементы и удалять их. </li></ul><ul id="8560106d-72f1-49ce-bda3-ddbf3af05b0c" class="block-color-default bulleted-list"><li style="list-style-type:disc">К элементам множества нельзя обратиться по индексам или автоматически вывести их по порядку.</li></ul><ul id="16e19f83-9bdf-4e76-b630-10034990f0a1" class="block-color-default bulleted-list"><li style="list-style-type:disc">Нельзя изменить отдельный элемент множества.</li></ul><ul id="5f306bcf-0245-4a48-9aa1-cd55fae115e2" class="block-color-default bulleted-list"><li style="list-style-type:disc">Элементы множества должны быть уникальны.</li></ul><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="5aedbda0-7850-45db-8eb5-f1775434d10b"><div style="font-size:1.5em"><img class="icon" src="./Python_ множества _ Я.Шпора_files/light-bulb_green.svg"></div><div style="width:100%">Множества — это не последовательности: к элементам множества нельзя обратиться по индексам, порядок элементов в множестве не определён и при каждом обращении может быть разным.</div></figure><h2 id="c2840259-fd55-43de-93ed-45c042322c5c" class="">Как объявить множество</h2><h3 id="cc9bdb60-c990-4a11-b57e-d92de4064423" class=""><strong>С помощью фигурных скобок</strong></h3><pre id="d68d5b43-2cc4-4afb-bb60-201dfad619d5" class="code language-python" tabindex="0"><code class="language-python">tomato_ratings <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">5.0</span><span class="token punctuation">,</span> <span class="token number">4.1</span><span class="token punctuation">,</span> <span class="token number">4.3</span><span class="token punctuation">,</span> <span class="token number">4.7</span><span class="token punctuation">,</span> <span class="token number">4.7</span><span class="token punctuation">,</span> <span class="token number">3.8</span><span class="token punctuation">}</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>tomato_ratings<span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал: {5.0, 4.3, 3.8, 4.1, 4.7}</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">type</span><span class="token punctuation">(</span>tomato_ratings<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал: &lt;class 'set'&gt;</span></code></pre><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="7dc1f314-cef4-469a-a97c-6b6d5fa16036"><div style="font-size:1.5em"><img class="icon" src="./Python_ множества _ Я.Шпора_files/light-bulb_green.svg"></div><div style="width:100%">Объявить пустое множество через запись <code>empty = {}</code> не получится: будет создан пустой словарь. </div></figure><h3 id="648ba7eb-266f-43d5-8dbc-e79941ccdded" class=""><strong>С помощью функции </strong><strong><code>set()</code></strong></h3><pre id="f86bd465-b896-4789-af18-a6bdb53b8e1d" class="code language-python" tabindex="0"><code class="language-python"><span class="token comment"># Вызов функции set() без аргументов создаст пустое множество.</span>
+empty <span class="token operator">=</span> <span class="token builtin">set</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Содержимое переменной empty:'</span><span class="token punctuation">,</span> empty<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Тип переменной empty:'</span><span class="token punctuation">,</span> <span class="token builtin">type</span><span class="token punctuation">(</span>empty<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал:</span>
+<span class="token comment"># Содержимое переменной empty: set()</span>
+<span class="token comment"># Тип переменной empty: &lt;class 'set'&gt;</span>
+
+<span class="token comment"># Создать список.</span>
+vegetables <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Помидоры'</span><span class="token punctuation">,</span> <span class="token string">'Огурцы'</span><span class="token punctuation">,</span> <span class="token string">'Баклажаны'</span><span class="token punctuation">,</span> <span class="token string">'Перец'</span><span class="token punctuation">,</span> <span class="token string">'Капуста'</span><span class="token punctuation">]</span>
+
+<span class="token comment"># Преобразовать список во множество.</span>
+vegetables_set <span class="token operator">=</span> <span class="token builtin">set</span><span class="token punctuation">(</span>vegetables<span class="token punctuation">)</span></code></pre><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="a656f640-8875-402a-bfd0-2d100daba775"><div style="font-size:1.5em"><img class="icon" src="./Python_ множества _ Я.Шпора_files/light-bulb_green.svg"></div><div style="width:100%">Элементами множества не могут быть данные изменяемых типов, например списки.</div></figure><h2 id="9bcdc928-913d-4a58-aeb8-7e1792aab20a" class="">Работа со множествами</h2><h3 id="403df893-6df2-4910-92a2-a0b5d721271d" class=""><strong>Добавить элемент</strong></h3><p id="cf1693d0-850d-409d-8700-625917574ad4" class="">Для добавления элемента в множество применяют <code>set.add()</code>:</p><pre id="b8963d43-97fc-4c25-be04-28bd8e8a9646" class="code language-python" tabindex="0"><code class="language-python">vegetables <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">'томат'</span><span class="token punctuation">,</span> <span class="token string">'огурец'</span><span class="token punctuation">,</span> <span class="token string">'баклажан'</span><span class="token punctuation">,</span> <span class="token string">'лук'</span><span class="token punctuation">}</span>
+
+<span class="token builtin">set</span><span class="token punctuation">.</span>add<span class="token punctuation">(</span>vegetables<span class="token punctuation">,</span> <span class="token string">'капуста'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Изменённое множество:'</span><span class="token punctuation">,</span> vegetables<span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал:</span>
+<span class="token comment"># Изменённое множество: {'огурец', 'томат', 'лук', 'баклажан', 'капуста'}</span></code></pre><h3 id="dd3dd789-6d2f-47d8-90e1-893dba9c27d5" class=""><strong>Удалить элемент</strong></h3><p id="54ff1104-e9e2-4080-b022-4802feb94327" class="block-color-default">Удалить элемент из множества можно тремя способами: <code>set.remove(&lt;set&gt;, element)</code>, <code>set.discard(&lt;set&gt;, element)</code> и <code>set.pop(&lt;set&gt;, element)</code>.</p><p id="148353d9-c470-40ab-914f-69dc7e1b43a7" class="block-color-default">Операции <code>set.remove()</code> и <code>set.discard()</code> очень схожи. Разница между ними в том, как они ведут себя при попытке удалить элемент, которого нет во множестве. </p><p id="9880a113-1e83-4d20-aa9e-48f6cb37a912" class="block-color-default">Если попытаться удалить несуществующий элемент:</p><ul id="21124ebb-c90c-4161-b78d-4e40fa1a0dd9" class="block-color-default bulleted-list"><li style="list-style-type:disc"><code>set.remove()</code> выдаст ошибку, выполнение программы остановится;</li></ul><ul id="39863530-b0dc-438b-a8b6-ab829fdd8c57" class="block-color-default bulleted-list"><li style="list-style-type:disc"><code>set.discard()</code> проигнорирует эту попытку и не вызовет ошибку. </li></ul><pre id="f018f114-b997-4204-8f49-3d4418d0fc52" class="code language-python" tabindex="0"><code class="language-python">vegetables <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">'томат'</span><span class="token punctuation">,</span> <span class="token string">'огурец'</span><span class="token punctuation">,</span> <span class="token string">'баклажан'</span><span class="token punctuation">,</span> <span class="token string">'лук'</span><span class="token punctuation">}</span>
+
+<span class="token builtin">set</span><span class="token punctuation">.</span>remove<span class="token punctuation">(</span>vegetables<span class="token punctuation">,</span> <span class="token string">'баклажан'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Удалили элемент "Баклажан":'</span><span class="token punctuation">,</span> vegetables<span class="token punctuation">)</span>
+
+<span class="token builtin">set</span><span class="token punctuation">.</span>discard<span class="token punctuation">(</span>vegetables<span class="token punctuation">,</span> <span class="token string">'лук'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Удалили элемент "Лук"'</span><span class="token punctuation">,</span> vegetables<span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал: {'томат', 'огурец'}</span>
+
+<span class="token builtin">set</span><span class="token punctuation">.</span>discard<span class="token punctuation">(</span>vegetables<span class="token punctuation">,</span> <span class="token string">'картошка'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Попытались удалить несуществующий элемент через set.discard():'</span><span class="token punctuation">,</span> vegetables<span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал: {'томат', 'огурец'}</span>
+
+<span class="token builtin">set</span><span class="token punctuation">.</span>remove<span class="token punctuation">(</span>vegetables<span class="token punctuation">,</span> <span class="token string">'картошка'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>vegetables<span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал: KeyError: 'картошка'</span></code></pre><p id="df780c03-f070-4469-9b3e-911d11dfab46" class=""><code>set.pop()</code> удаляет и возвращает случайный элемент множества: </p><pre id="a8f4f154-4a8c-4b4e-a111-f9e9bf02d8ef" class="code language-python" tabindex="0"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">vegetables <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">'томат'</span><span class="token punctuation">,</span> <span class="token string">'огурец'</span><span class="token punctuation">,</span> <span class="token string">'баклажан'</span><span class="token punctuation">,</span> <span class="token string">'лук'</span><span class="token punctuation">}</span>
+vegetable <span class="token operator">=</span> vegetables<span class="token punctuation">.</span>pop<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f'Сегодня на обед - </span><span class="token interpolation"><span class="token punctuation">{</span>vegetable<span class="token punctuation">}</span></span><span class="token string">!'</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f'Оставшиеся овощи: </span><span class="token interpolation"><span class="token punctuation">{</span>vegetables<span class="token punctuation">}</span></span><span class="token string">'</span></span><span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал:</span>
+<span class="token comment"># Сегодня на обед - томат!</span>
+<span class="token comment"># Оставшиеся овощи: {'огурец', 'лук', 'баклажан'}</span></code></pre><h3 id="d36fd3f1-72ea-4b6b-8e3c-3ac1aa247b59" class=""><strong>Очистить множество</strong></h3><p id="5a9acf27-d30e-4769-9439-6c8336c2a690" class="">Для очистки существующего множества используется <code>set.clear()</code>:</p><pre id="c3147b90-d6f7-4738-856e-657e1e522855" class="code language-python" tabindex="0"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">vegetables <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">'томат'</span><span class="token punctuation">,</span> <span class="token string">'огурец'</span><span class="token punctuation">,</span> <span class="token string">'баклажан'</span><span class="token punctuation">,</span> <span class="token string">'лук'</span><span class="token punctuation">}</span>
+<span class="token builtin">set</span><span class="token punctuation">.</span>clear<span class="token punctuation">(</span>vegetables<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>vegetables<span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал: set()</span></code></pre><h3 id="03e93864-f400-4e6b-b5ab-39e45d6f84cf" class=""><strong>Проверить наличие элемента в множестве</strong></h3><p id="c01792ed-228f-4a82-8e6a-3ae7c52956ed" class="">Чтобы определить, есть ли нужный элемент в множестве, применяют оператор <code>in</code>:</p><pre id="6691d3db-3095-4221-b4d6-43617c83832e" class="code language-python" tabindex="0"><code class="language-python">vegetables <span class="token operator">=</span> <span class="token builtin">set</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'Помидор'</span><span class="token punctuation">,</span> <span class="token string">'Огурец'</span><span class="token punctuation">,</span> <span class="token string">'Баклажан'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">if</span> <span class="token string">'Помидор'</span> <span class="token keyword">in</span> vegetable_yields<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Помидор есть!'</span><span class="token punctuation">)</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Помидора нет!'</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Вывод в терминал: Помидоры есть!</span></code></pre><h2 id="d324187a-dd12-40e9-ae47-abba92b53af8" class="">Операции над множествами</h2><h3 id="17837f30-655b-450d-b522-b0e8d289c488" class=""><strong>Пересечение: оператор </strong><strong><code>&amp;</code></strong><strong> (логическое И)</strong></h3><pre id="f65acfed-6985-488d-9178-17e7b04f47df" class="code language-python" tabindex="0"><code class="language-python">stepan_vegetables <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">'томат'</span><span class="token punctuation">,</span> <span class="token string">'огурец'</span><span class="token punctuation">,</span> <span class="token string">'баклажан'</span><span class="token punctuation">,</span> <span class="token string">'лук'</span><span class="token punctuation">}</span>
+tonya_vegetables <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">'огурец'</span><span class="token punctuation">,</span> <span class="token string">'кабачок'</span><span class="token punctuation">,</span> <span class="token string">'баклажан'</span><span class="token punctuation">,</span> <span class="token string">'морковь'</span><span class="token punctuation">}</span>
+
+common_vegetables <span class="token operator">=</span> stepan_vegetables <span class="token operator">&amp;</span> tonya_vegetables
+<span class="token keyword">print</span><span class="token punctuation">(</span>common_vegetables<span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал: {'огурец', 'баклажан'}</span></code></pre><h3 id="e753fb51-6790-49ac-aa46-01851c0e9873" class=""><strong>Объединение: оператор </strong><strong><code>|</code></strong><strong> (логическое ИЛИ)</strong></h3><pre id="4ea71fe5-d3aa-44ef-a616-309ffe298a7e" class="code language-python" tabindex="0"><code class="language-python">stepan_vegetables <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">'томат'</span><span class="token punctuation">,</span> <span class="token string">'огурец'</span><span class="token punctuation">,</span> <span class="token string">'баклажан'</span><span class="token punctuation">,</span> <span class="token string">'лук'</span><span class="token punctuation">}</span>
+tonya_vegetables <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">'огурец'</span><span class="token punctuation">,</span> <span class="token string">'кабачок'</span><span class="token punctuation">,</span> <span class="token string">'баклажан'</span><span class="token punctuation">,</span> <span class="token string">'морковь'</span><span class="token punctuation">}</span>
+
+all_vegetables <span class="token operator">=</span> stepan_vegetables <span class="token operator">|</span> tonya_vegetables
+<span class="token keyword">print</span><span class="token punctuation">(</span>all_vegetables<span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал: {'томат', 'огурец', 'баклажан', 'лук', 'кабачок', 'морковь'}</span></code></pre><h3 id="59148c1a-3533-4a2a-832d-d4bfc3139fa4" class=""><strong>Разность: оператор </strong><strong><code>-</code></strong></h3><pre id="28a8ee11-224c-44c4-a47a-1a799003dc22" class="code language-python" tabindex="0"><code class="language-python">stepan_vegetables <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">'томат'</span><span class="token punctuation">,</span> <span class="token string">'огурец'</span><span class="token punctuation">,</span> <span class="token string">'баклажан'</span><span class="token punctuation">,</span> <span class="token string">'лук'</span><span class="token punctuation">}</span>
+tonya_vegetables <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">'огурец'</span><span class="token punctuation">,</span> <span class="token string">'кабачок'</span><span class="token punctuation">,</span> <span class="token string">'баклажан'</span><span class="token punctuation">,</span> <span class="token string">'морковь'</span><span class="token punctuation">}</span>
+
+stepan_unique_vegetables <span class="token operator">=</span> stepan_vegetables <span class="token operator">-</span> tonya_vegetables
+<span class="token keyword">print</span><span class="token punctuation">(</span>stepan_unique_vegetables<span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал: {'томат', 'лук'}</span></code></pre><h3 id="3420ebac-4bda-40af-8a32-f0a405ba8054" class=""><strong>Симметричная разность: оператор </strong><strong><code>^</code></strong></h3><pre id="5696766a-6474-4d03-a6a3-b6819c28a333" class="code language-python" tabindex="0"><code class="language-python">stepan_vegetables <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">'томат'</span><span class="token punctuation">,</span> <span class="token string">'огурец'</span><span class="token punctuation">,</span> <span class="token string">'баклажан'</span><span class="token punctuation">,</span> <span class="token string">'лук'</span><span class="token punctuation">}</span>
+tonya_vegetables <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">'огурец'</span><span class="token punctuation">,</span> <span class="token string">'кабачок'</span><span class="token punctuation">,</span> <span class="token string">'баклажан'</span><span class="token punctuation">,</span> <span class="token string">'морковь'</span><span class="token punctuation">}</span>
+
+sym_diff_vegetables <span class="token operator">=</span> stepan_vegetables <span class="token operator">^</span> tonya_vegetables
+<span class="token keyword">print</span><span class="token punctuation">(</span>sym_diff_vegetables<span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал: {'томат', 'лук', 'кабачок', 'морковь'}</span></code></pre></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span>
+<div id="footer">
+	<div id="saying" class="sans">
+		<div class="text">На полях ума созревает мудрость, напоминая о шпаргалках, как о добродетелях.</div> 
+        <div class="src">Питон Путаный, софист</div>
+	</div>
+</div>
+</body></html>

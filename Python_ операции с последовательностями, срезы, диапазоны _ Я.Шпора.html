@@ -1,0 +1,742 @@
+
+<!-- saved from url=(0162)https://code.s3.yandex.net/Python-dev/cheatsheets/081-python-operatsii-s-posledovatelnostjami-srezy-dia/081-python-operatsii-s-posledovatelnostjami-srezy-dia.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Python: операции с последовательностями, срезы, диапазоны&nbsp;| Я.Шпора</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style>
+<link rel="apple-touch-icon" sizes="180x180" href="https://code.s3.yandex.net/Python-dev/cheatsheets/static/ico/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://code.s3.yandex.net/Python-dev/cheatsheets/static/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://code.s3.yandex.net/Python-dev/cheatsheets/static/ico/favicon-16x16.png">
+<link rel="manifest" href="https://code.s3.yandex.net/Python-dev/cheatsheets/static/ico/site.webmanifest">
+<link rel="mask-icon" href="https://code.s3.yandex.net/Python-dev/cheatsheets/static/ico/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="https://code.s3.yandex.net/Python-dev/cheatsheets/static/ico/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="../static/ico/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+<link href="./Python_ операции с последовательностями, срезы, диапазоны _ Я.Шпора_files/prism.css" rel="stylesheet">
+<script src="./Python_ операции с последовательностями, срезы, диапазоны _ Я.Шпора_files/prism.js"></script>
+<link href="./Python_ операции с последовательностями, срезы, диапазоны _ Я.Шпора_files/custom.css" rel="stylesheet">
+<script src="./Python_ операции с последовательностями, срезы, диапазоны _ Я.Шпора_files/custom.js"></script>
+<!--<base target="_blank">--><base href="." target="_blank">
+<meta content="extension" property="gosuslugi.plugin.extension.content"></head><body><article id="c245cb94-2001-45d4-a737-1e904dd30d7e" class="page sans"><header><h1 class="page-title"><strong>Python: о</strong>перации с последовательностями, срезы, диапазоны<strong>&nbsp;| Я.Шпора</strong></h1><p class="page-description"></p></header><div class="page-body"><h2 id="988a18d5-4b2a-48bf-b939-ad5d5073191a" class="">Общие операции для последовательностей</h2><h3 id="08e07526-ce0d-4b84-9624-f925ebee6c56" class=""><strong>Определить количество элементов последовательности </strong></h3><p id="d5e09c3c-c20b-42d4-b363-7fcec0868463" class="">Для этой задачи используется функция <code>len()</code>; аргументом передаётся последовательность, возвращается число — количество элементов.</p><pre id="24279650-7b37-4d3f-8faa-c58cfd9f7707" class="code language-python" tabindex="0"><code class="language-python">any_string <span class="token operator">=</span> <span class="token string">'Сколько же элементов в этой строке?'</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Символов в строке any_string:'</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>any_string<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал: Символов в строке any_string: 35</span>
+
+any_range <span class="token operator">=</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">57</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Элементов в диапазоне any_range:'</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>any_range<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал: Элементов в диапазоне any_range: 24</span>
+
+any_list <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">85</span><span class="token punctuation">,</span> <span class="token string">'06'</span><span class="token punctuation">,</span> <span class="token string">'это мой номер'</span><span class="token punctuation">]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Элементов в списке any_list'</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>any_list<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал: Элементов в списке any_list 5</span></code></pre><h3 id="45634741-449f-4a0c-b07c-48f60561b736" class=""><strong>Конкатенация — объединение последовательностей</strong></h3><p id="e13d9315-3e6c-46f3-99ec-0c765bbd9652" class="">Выполняется с помощью оператора <code>+</code>. Объединять можно только последовательности одного типа. Результат конкатенации — новая последовательность.</p><pre id="d2a74820-6a28-4e66-9f18-9a23a02795dc" class="code language-python" tabindex="0"><code class="language-python">first_vegetable_list <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'помидор'</span><span class="token punctuation">,</span> <span class="token string">'огурец'</span><span class="token punctuation">,</span> <span class="token string">'баклажан'</span><span class="token punctuation">]</span>
+
+second_vegetable_list<span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'морковь'</span><span class="token punctuation">,</span> <span class="token string">'лук'</span><span class="token punctuation">,</span> <span class="token string">'чеснок'</span><span class="token punctuation">]</span>
+
+full_vegetable_list <span class="token operator">=</span> first_vegetable_list <span class="token operator">+</span> second_vegetable_list
+<span class="token keyword">print</span><span class="token punctuation">(</span>full_vegetable_list<span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал: ['помидор', 'огурец', 'баклажан', 'морковь', 'лук', 'чеснок']</span>
+
+hybrid <span class="token operator">=</span> second_vegetable_list<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">+</span> first_vegetable_list<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>hybrid<span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал: чеснокогурец</span></code></pre><h3 id="5b4017af-f2ec-4db6-b71d-88f55d6c9c58" class=""><strong>Умножение последовательностей</strong></h3><p id="965d4c37-ccf2-42f0-9673-5564d4dee3d4" class="block-color-default">Все последовательности, кроме <code>range</code>, можно умножить на число. В результате вернётся новая последовательность, где элементы будут дублироваться заданное количество раз.</p><pre id="90a1e07e-070e-4930-9e8b-85546596c55b" class="code language-python" tabindex="0"><code class="language-python">dig_more <span class="token operator">=</span> <span class="token string">'копаю грядку! '</span> <span class="token operator">*</span> <span class="token number">4</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dig_more<span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал: копаю грядку! копаю грядку! копаю грядку! копаю грядку!</span></code></pre><h3 id="a3e9583b-b891-4112-8643-4cd81fbcdef0" class=""><strong>Проверка наличия элемента в последовательности</strong></h3><p id="294f830e-7050-449c-99fd-4d227412aa2a" class="">Оператор <code>in</code> позволяет узнать, есть ли заданный элемент в последовательности, и возвращает <code>True</code> или <code>False</code>.</p><pre id="70fe6e51-b44e-4f98-9ac5-2a480468afcc" class="code language-python" tabindex="0"><code class="language-python">numbers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span>
+result <span class="token operator">=</span> <span class="token number">3</span> <span class="token keyword">in</span> numbers  <span class="token comment"># True, тройка есть в списке чисел</span></code></pre><h3 id="756c1804-e49d-47a8-8a7a-202471fc2202" class=""><strong>Сравнение последовательностей</strong></h3><p id="0f29443d-3312-4b07-b5ed-c305b4cb48d1" class="">При сравнении последовательностей поочерёдно сравниваются элементы с одинаковыми индексами, и при первом же различии определяется результат сравнения. </p><p id="14e27f2c-b5bd-40d4-b4d8-aeab8e9d02ac" class="">Операторы <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code> работают только при сравнении последовательностей одного типа и однотипных элементов в этих последовательностях.</p><pre id="154fa89f-5f59-4265-9506-647931b3ad64" class="code language-python" tabindex="0"><code class="language-python">list_one <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">17</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span>          
+list_two <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">17</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>list_one <span class="token operator">&gt;</span> list_two<span class="token punctuation">)</span> 
+<span class="token comment"># Вывод в терминал: True</span></code></pre><p id="3ad04488-ea51-49e3-8e18-a90061950989" class="">Если в одной последовательности больше элементов, чем в другой, а сравниваемые элементы оказались равны, большей будет признана та последовательность, которая длиннее.</p><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="53cc14ac-ead8-4321-8f5d-faefb3403008"><div style="font-size:1.5em"><img class="icon" src="./Python_ операции с последовательностями, срезы, диапазоны _ Я.Шпора_files/light-bulb_green.svg"></div><div style="width:100%">При сравнении строк сравниваются не сами символы в строках, а их числовые коды.</div></figure><h3 id="26361736-c640-46b7-aae9-67eb3c1d998b" class="block-color-default"><strong>Поиск наименьшего и наибольшего значения в последовательности</strong></h3><p id="b0026f5c-39f9-42ac-a66c-f319200a68ee" class="">Используются встроенные функции <code>min()</code> и <code>max()</code>. Искать наименьшее и наиболее значение можно только в последовательностях с элементами одного типа.</p><pre id="60732739-ab17-427d-8455-bc9f1e522784" class="code language-python" tabindex="0"><code class="language-python">str_of_numbers <span class="token operator">=</span> <span class="token string">'12345'</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Максимальное значение в строке str_of_numbers:'</span><span class="token punctuation">,</span> <span class="token builtin">max</span><span class="token punctuation">(</span>str_of_numbers<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># Максимальное значение в строке str_of_numbers: 5</span>
+
+list_of_str <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'abc'</span><span class="token punctuation">,</span> <span class="token string">'Abc'</span><span class="token punctuation">]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Минимальное значение в списке list_of_str:'</span><span class="token punctuation">,</span> <span class="token builtin">min</span><span class="token punctuation">(</span>list_of_str<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># Abc</span></code></pre><h2 id="affbacbb-3163-459b-910c-ece0603d2bd2" class="">Срезы</h2><p id="1cb7955e-2d7d-498a-afe7-a3ee294ffb0c" class="block-color-default">Чтобы из последовательности <code>sequence</code> получить срез, в который войдут элементы, расположенные один за другим между заданными индексами, применяют синтаксис <code>sequence[start:end]</code>, где <code>start</code> и <code>end</code> — индексы элементов, определяющие диапазон, из которого будет взят срез. </p><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="fdbda850-c54f-404d-9461-454164f166c6"><div style="font-size:1.5em"><img class="icon" src="./Python_ операции с последовательностями, срезы, диапазоны _ Я.Шпора_files/light-bulb_green.svg"></div><div style="width:100%">Если в срезе указан конечный индекс, элемент с этим индексом не включается в срез.</div></figure><pre id="b29f0f3b-036c-4f8b-aee8-d559c83a95fd" class="code language-python" tabindex="0"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">vegetable_name <span class="token operator">=</span> <span class="token string">'Ананас'</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>vegetable_name<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал: нана</span></code></pre><p id="15b9fabf-608f-4c38-b192-46b468ec252c" class="">Для получения среза можно указать только начальный или конечный индекс, тогда второй границей среза будет конец или начало исходной последовательности. </p><pre id="9d48189a-7092-4994-ada3-d761719c7120" class="code language-python" tabindex="0"><code class="language-python">vegetable_name <span class="token operator">=</span> <span class="token string">'Картофелина'</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>vegetable_name<span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал: лина</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>vegetable_name<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">7</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал: Картофе</span></code></pre><p id="0383905c-24dc-4f6c-be8e-5da58b8cd8eb" class="">Чтобы получить срез из элементов, расположенных с определённым шагом, применяют синтаксис <code>sequence[start:end:step]</code>.</p><pre id="9e91f87d-a86f-406c-9e22-f7bd35983fb2" class="code language-python" tabindex="0"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">vegetables <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Помидоры'</span><span class="token punctuation">,</span> <span class="token string">'Огурцы'</span><span class="token punctuation">,</span> <span class="token string">'Баклажаны'</span><span class="token punctuation">,</span> <span class="token string">'Перец'</span><span class="token punctuation">,</span> <span class="token string">'Капуста'</span><span class="token punctuation">]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>vegetables<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span><span class="token number">5</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment"># Вывод в терминал: ['Помидоры', 'Баклажаны', 'Капуста']</span></code></pre><h2 id="4d8a46a7-5699-47d7-b756-a2bfc40de91f" class="">Диапазон (range)</h2><p id="aa19880f-0f20-461e-8323-367c7f475b2c" class="">Диапазон<strong> </strong>— неизменяемая последовательность чисел. Последовательность <code>range</code> создаётся при вызове функции&nbsp;<code>range()</code>; границы создаваемого диапазона передаются в аргументах. </p><pre id="fe521cfa-323e-4ba3-8d5f-c08110f20bb1" class="code language-python" tabindex="0"><code class="language-python">days <span class="token operator">=</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">)</span></code></pre><p id="61eee117-8871-4fbb-ba35-e5af6640c222" class="">В переменной <code>days</code> будет создан диапазон чисел от 0 до 29 включительно.</p><p id="226eddfe-378d-4cca-a8cc-45461659dfb6" class="">Функция <code>range()</code> может принимать от одного до трёх аргументов:</p><ol type="1" id="c75afd95-414e-4980-b8c4-4308b78d0588" class="numbered-list" start="1"><li><code>range(stop)</code>: сгенерирует числа от 0 до <code>stop - 1</code>.<p id="dd631d45-d5de-48df-a4e2-557164debbfb" class=""><code>range(100)</code> сгенерирует числа от 0 до 99 включительно.</p></li></ol><ol type="1" id="f59ee5ad-00c3-47c8-bb2b-751622e11b03" class="numbered-list" start="2"><li><code>range(start, stop)</code>: сгенерирует числа от <code>start</code> до <code>stop - 1</code>.<p id="146a3b42-6ac0-4184-b671-73463811f8eb" class=""><code>range(50, 100)</code> сгенерирует числа от 50 до 99 включительно. Объявления диапазонов <code>range(0, 100)</code> и <code>range(100)</code> вернут последовательности с одинаковым набором элементов.</p></li></ol><ol type="1" id="ab52b431-31ea-4012-b99c-8f31e8be70f9" class="numbered-list" start="3"><li><code>range(start, stop, step)</code>: сгенерирует числа от <code>start</code> до <code>stop - 1</code> с шагом <code>step</code>.<p id="b5b48f82-61e1-43d8-8427-22e7ccb55f39" class=""><code>range(50, 100, 9)</code> сгенерирует числа в пределах от 50 до 99 включительно с шагом 9: </p><p id="a9edd97b-727d-427d-820c-e85dcdfac686" class="">50, 59, 68, … 95. Последним значением будет 95.</p></li></ol><p id="29472c78-4f94-47d6-9f71-ef1fe13139d6" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span>
+<div id="footer">
+	<div id="saying" class="sans">
+		<div class="text">Среди бесконечных мыслей шпаргалка ведёт мудрого к совершенству.</div> 
+        <div class="src">Франсуа Карбон, неизвестный великий просветитель</div>
+	</div>
+</div>
+</body></html>
