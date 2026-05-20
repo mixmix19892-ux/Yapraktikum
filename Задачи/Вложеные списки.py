@@ -19,7 +19,6 @@ def total_harvest(harvest):
 
 # # 3. Функция для подсчёта среднего урожая с каждого участка:
 def average_harvest_per_plot(harvest):
-    average = []
     average = [sum(element) / len(harvest) for element in harvest]
     return average
 
