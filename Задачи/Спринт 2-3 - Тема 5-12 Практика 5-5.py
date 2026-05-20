@@ -10,16 +10,19 @@ def analyze_results(list_of_dicts: list[dict[str, int]]):
         for key, value in dict.items():
             scores[key] += value
 
-    scores = sorted(scores)
     winner = None
     winner_score = 0
 
     for key, value in scores.items():
-        if scores[]
+        if winner_score < value:
+            winner_score = value
+            winner = key
+
+    
 
     print('Команды, участвовавшие в чемпионате:')
 
-    for key in scores:
+    for key in sorted(scores):
         print(f'* {key}')
 
     print(f'В чемпионате победила команда {winner} с результатом {winner_score} баллов')
