@@ -3,12 +3,11 @@ def analyze_results(list_of_dicts: list[dict[str, int]]):
     scores = {}
 
     for dict in list_of_dicts:
-        for key in dict:
-            scores[key] = 0
-
-    for dict in list_of_dicts:
         for key, value in dict.items():
-            scores[key] += value
+            if scores.get(key) == None:
+                scores[key] = value
+            else:
+                scores[key] += value
 
     winner = None
     winner_score = 0
