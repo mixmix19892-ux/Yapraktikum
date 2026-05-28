@@ -13,7 +13,7 @@ class Store:
 
     def get_info(self, text_date) -> str:
         # С помощью шаблона даты преобразуйте строку text_date в объект даты:
-        date_object = datetime.strptime(text_date, "%d %m %Y")
+        date_object = datetime.strptime(text_date, "%d.%m.%Y")
 
         # Передайте в метод is_open() объект даты date_object и определите,
         # работает ли магазин в указанную дату.
@@ -28,20 +28,41 @@ class Store:
 
 class MiniStore(Store):
     # Переопределите метод is_open().
+
     # Мини-маркеты работают только по будним дням (пн-пт)
     def is_open(self, date: datetime) -> bool:
+        out = False
+        working_days = range(0, 5)
+        day_of_week = date.weekday()
+        if day_of_week in working_days:
+            out = True
+        return out
 
 
 class WeekendStore(Store):
     # Магазины выходного дня работают только по выходным (сб-вс)
+
     # Переопределите метод is_open().
     def is_open(self, date: datetime) -> bool:
+        out = False
+        working_days = (5, 6)
+        day_of_week = date.weekday()
+        if day_of_week in working_days:
+             out = True
+        return out
 
 
 class NonStopStore(Store):
     # Магазины non-stop работают всегда
+
     # Переопределите метод is_open().
     def is_open(self, date: datetime) -> bool:
+        out = False
+        working_days = range(0, 7)
+        day_of_week = date.weekday()
+        if day_of_week in working_days:
+             out = True
+        return out
 
 
 mini_store = MiniStore('Улица Немига, 57')
